@@ -1,19 +1,25 @@
 import express from 'express';
 import dotenv from 'dotenv';
 
+import initMongoConnection from './database/mongodbConfig';
+
 import requestTrackMiddleware from './middlewares/requestTracking';
 import errorHandlingMiddleware from './middlewares/errorHandling';
 import resourceNotFoundMiddleware from './middlewares/resourceNotFound';
 
+import User from './models/User';
+
 dotenv.config();
 const app = express();
 
+initMongoConnection();
+
 app.use(requestTrackMiddleware);
 
-app.get('/', (req, res, next) => {
+app.get('/', async (req, res, next) => {
   try {
-    dasdasdasd
-    res.json({ message: 'Hello Projety API! :-)' })
+    const users = await User.find();
+    res.json(users);
   } catch (error) {
     next(error);
   }
