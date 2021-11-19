@@ -1,12 +1,14 @@
 import { Router } from 'express';
 
-import * as yup from 'yup';
-import { generateHash } from '../utils/bcrypt';
+import RegisterRequestDTO from '../dtos/RegisterRequestDTO';
 
 import User from '../models/User';
-import UserExistsException from '../exceptions/UserExistsException';
+import AuthService from '../service/authService';
+import AuthRepository from '../repository/authRepository';
 
-import RegisterRequestDTO from '../dtos/RegisterRequestDTO';
+// Injeção de Dependências (Dependency Injection)
+const authRepository = new AuthRepository(User);
+const authService = new AuthService(authRepository);
 
 const router = Router();
 
@@ -15,27 +17,10 @@ const router = Router();
 router.post('/register', async (req, res, next) => {
   try {
     const body = new RegisterRequestDTO(req.body);
-    await body.validate();
 
-    const foundUser = await User.findOne({ email: body.email });
+    const userResponse = await authService.register(body);
 
-    if (foundUser) {
-      throw new UserExistsException();
-    }
-
-    const encryptedPassword = generateHash(body.password, 10);
-
-    const newUser = { ...body, password: encryptedPassword };
-
-    const savedUser = await User.create(newUser);
-
-    const response = {
-      id: savedUser._id,
-      name: savedUser.name,
-      email: savedUser.email,
-    };
-
-    res.status(201).json(response);
+    res.status(201).json(userResponse);
   } catch (error) {
     next(error);
   }
