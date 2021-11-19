@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import RegisterRequestDTO from '../dtos/RegisterRequestDTO';
+import LoginRequestDTO from '../dtos/LoginRequestDTO';
 
 import User from '../models/User';
 import AuthService from '../service/authService';
@@ -28,7 +29,11 @@ router.post('/register', async (req, res, next) => {
 
 router.post('/login', async (req, res, next) => {
   try {
-    res.status(200).json(req.body);
+    const body = new LoginRequestDTO(req.body);
+
+    const loginResponse = await authService.login(body);
+
+    res.status(200).json(loginResponse);
   } catch (error) {
     next(error);
   }
