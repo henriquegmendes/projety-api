@@ -13,8 +13,6 @@ const authService = new AuthService(authRepository);
 
 const router = Router();
 
-// DTO --- Data Transfer Object
-
 router.post('/register', async (req, res, next) => {
   try {
     const body = new RegisterRequestDTO(req.body);

@@ -7,3 +7,7 @@ export const generateLoginToken = (payload) => (
     { expiresIn: process.env.LOGIN_TOKEN_EXPIRATION },
   )
 );
+
+export const verifyLoginToken = (token) => (
+  jwt.verify(token, process.env.LOGIN_TOKEN_SECRET)
+);
