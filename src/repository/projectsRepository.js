@@ -42,6 +42,14 @@ class ProjectsRepository {
   async deleteOneById(id) {
     await this.Model.findByIdAndDelete(id);
   }
+
+  async insertTaskIdIntoProject(projectId, taskId) {
+    await this.Model.findByIdAndUpdate(projectId, { $push: { tasks: taskId } });
+  }
+
+  async removeTaskIdFromProject(projectId, taskId) {
+    await this.Model.findByIdAndUpdate(projectId, { $pull: { tasks: taskId } });
+  }
 }
 
 export default ProjectsRepository;

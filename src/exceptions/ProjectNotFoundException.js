@@ -1,7 +1,7 @@
 class ProjectNotFoundException extends Error {
   constructor() {
     super();
-    this.message = 'Project not found to be updated';
+    this.message = 'Project not found';
     this.status = 400;
   }
 }

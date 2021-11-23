@@ -44,7 +44,7 @@ class ProjectsService {
     const projectData = {
       title: body.title,
       description: body.description,
-    }
+    };
 
     const editedProject = await this.projectsRepository.updateProjectById(id, projectData);
 
@@ -67,6 +67,14 @@ class ProjectsService {
     if (!project) {
       throw new ProjectNotFoundException();
     }
+  }
+
+  async insertTaskIdIntoProject(projectId, taskId) {
+    await this.projectsRepository.insertTaskIdIntoProject(projectId, taskId);
+  }
+
+  async removeTaskIdFromProject(projectId, taskId) {
+    await this.projectsRepository.removeTaskIdFromProject(projectId, taskId);
   }
 }
 
