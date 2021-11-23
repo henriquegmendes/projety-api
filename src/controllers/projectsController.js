@@ -33,7 +33,7 @@ router.get('/:projectId', async (req, res, next) => {
     const { id } = req.user;
     const { projectId } = req.params;
 
-    const project = await projectsService.findOneByIdAndOwnerId(projectId, id)
+    const project = await projectsService.findOneByIdAndOwnerId(projectId, id);
 
     res.json(project);
   } catch (error) {

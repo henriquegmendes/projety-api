@@ -24,7 +24,7 @@ class ProjectsRepository {
     const project = await this.Model.findOne({
       _id: id,
       owner: ownerId,
-    });
+    }).populate('tasks');
 
     return project;
   }
