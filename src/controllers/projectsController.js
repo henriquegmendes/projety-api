@@ -7,7 +7,7 @@ import Project from '../models/Project';
 import Task from '../models/Task';
 import ProjectsService from '../service/projectsService';
 import ProjectsRepository from '../repository/projectsRepository';
-import TasksRepository from '../repository/tasksRepository'
+import TasksRepository from '../repository/tasksRepository';
 
 const projectsRepository = new ProjectsRepository(Project);
 const tasksRepository = new TasksRepository(Task);
@@ -19,7 +19,7 @@ router.get('/', async (req, res, next) => {
   try {
     const { title } = req.query;
     const { id } = req.user;
-    
+
     const projects = await projectsService.findAllByTitleAndOwnerId(title, id);
 
     res.json(projects);
@@ -73,7 +73,7 @@ router.delete('/:projectId', async (req, res, next) => {
     const { id } = req.user;
     const { projectId } = req.params;
 
-    await projectsService.deleteOne(projectId, id)
+    await projectsService.deleteOne(projectId, id);
 
     res.status(204).json();
   } catch (error) {
